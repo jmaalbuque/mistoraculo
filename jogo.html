@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mistoráculo — Onde está a professora Marlene?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#eadfc2;
+    --paper-2:#dfd0a8;
+    --paper-edge:#c9b88a;
+    --ink:#2a2318;
+    --ink-soft:#4a3d2c;
+    --red:#9b2c22;
+    --red-lit:#c0463a;
+    --redact:#14110d;
+    --brass:#a58b4e;
+    --desk:#14100d;
+    --line:#b9a77a;
+    --manila:#d9c389;
+    --manila-dark:#b39a5c;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ background:#0f0c0a; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse 75% 50% at 50% -5%, rgba(255,205,130,.20), transparent 70%),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.014) 0 2px, transparent 2px 9px),
+      radial-gradient(ellipse at 50% 110%, #070504 0, transparent 65%),
+      linear-gradient(#1d1611, #110d0a);
+    background-attachment:fixed;
+    font-family:'Special Elite','Courier New',monospace;
+    color:var(--ink);
+    padding:44px 16px 90px;
+  }
+
+  /* grão geral por cima de tudo */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    opacity:.16;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode:overlay;
+    z-index:50;
+  }
+
+  /* ---------- CABEÇALHO DA PÁGINA ---------- */
+  .masthead{
+    max-width:760px; margin:0 auto 26px; text-align:center;
+  }
+  .masthead .kicker{
+    font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.42em;
+    color:var(--brass); text-transform:uppercase;
+  }
+  .masthead h1{
+    font-family:'Oswald',sans-serif; font-weight:700;
+    font-size:clamp(30px,6.4vw,54px); letter-spacing:.07em; line-height:1.05;
+    margin:8px 0 6px; color:#eadfc2; text-transform:uppercase;
+    text-shadow:0 2px 0 #000, 0 0 30px rgba(255,190,110,.18);
+  }
+  .masthead h1 em{ font-style:normal; color:var(--red-lit); }
+  .masthead .sub{ font-size:12.5px; color:#a99a7c; letter-spacing:.04em; }
+  .masthead .rule{
+    width:min(260px,60%); margin:14px auto 0; height:5px;
+    border-top:1px solid #6f6146; border-bottom:1px solid #6f6146;
+  }
+
+  .intro{
+    max-width:640px; margin:0 auto 24px; text-align:center;
+    color:#a99a7c; font-size:11.5px; letter-spacing:.03em; line-height:1.7;
+  }
+
+  /* ---------- ABAS (índices de pasta) ---------- */
+  .tabs{
+    display:flex; justify-content:center; flex-wrap:wrap; gap:5px;
+    max-width:780px; margin:0 auto; position:relative; z-index:2;
+  }
+  .creature-tabs{ counter-reset:caso; align-items:flex-end; }
+  .tab{
+    font-family:'Oswald',sans-serif; font-weight:600; font-size:12.5px;
+    letter-spacing:.07em; text-transform:uppercase;
+    padding:7px 16px 9px;
+    background:linear-gradient(#e0cb94, var(--manila-dark));
+    color:var(--ink-soft);
+    border:1px solid #8c7843; border-bottom:none;
+    border-radius:7px 7px 0 0;
+    cursor:pointer; user-select:none;
+    transform:translateY(7px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 -2px 6px rgba(0,0,0,.25);
+    transition:transform .18s ease, filter .18s ease;
+    filter:brightness(.82) saturate(.9);
+    text-align:center; line-height:1.15;
+  }
+  .tab:hover{ transform:translateY(3px); filter:brightness(.95); }
+  .creature-tabs .tab{ counter-increment:caso; }
+  .creature-tabs .tab::before{
+    content:"Nº " counter(caso, decimal-leading-zero);
+    display:block; font-family:'Special Elite',monospace; font-weight:400;
+    font-size:8.5px; letter-spacing:.14em; color:var(--red); margin-bottom:2px;
+  }
+  .creature-tabs .tab.active{
+    background:linear-gradient(#f1e7cb, var(--paper));
+    color:var(--ink); transform:translateY(0); filter:none;
+    box-shadow:inset 0 1px 0 #fff8, 0 -3px 10px rgba(0,0,0,.35);
+    position:relative; z-index:3;
+  }
+
+  .type-tabs{ margin-top:22px; gap:8px; }
+  .type-tabs .tab{
+    background:transparent; color:#cdbf9d;
+    border:1px solid #6f6146; border-radius:2px;
+    padding:7px 16px; font-size:11px; transform:none; filter:none; box-shadow:none;
+  }
+  .type-tabs .tab:hover{ background:rgba(255,255,255,.05); transform:none; }
+  .type-tabs .tab.active{
+    background:#cdbf9d; color:#1b1511; border-color:#cdbf9d; box-shadow:none;
+  }
+
+  .stage{
+    max-width:760px; margin:18px auto 0; position:relative; z-index:2;
+  }
+
+  /* ---------- FOLHA DE PAPEL ---------- */
+  .sheet{
+    --tilt:-.35deg;
+    display:none;
+    position:relative;
+    padding:44px 40px 34px;
+    background:
+      linear-gradient(180deg,
+        transparent 32.7%, rgba(70,50,20,.14) 33%, rgba(255,255,255,.40) 33.35%, transparent 33.7%,
+        transparent 66.3%, rgba(70,50,20,.14) 66.6%, rgba(255,255,255,.40) 66.95%, transparent 67.3%),
+      radial-gradient(ellipse at 78% 12%, rgba(155,44,34,.06), transparent 42%),
+      radial-gradient(ellipse at center, transparent 52%, rgba(120,88,36,.26) 100%),
+      var(--paper);
+    border:1px solid var(--paper-edge);
+    box-shadow:
+      0 2px 0 var(--paper-edge),
+      0 34px 60px -22px rgba(0,0,0,.85),
+      0 0 0 1px rgba(0,0,0,.30);
+    transform:rotate(var(--tilt));
+  }
+  .sheet:nth-child(4n+2){ --tilt:.28deg; }
+  .sheet:nth-child(4n+3){ --tilt:-.15deg; }
+  .sheet:nth-child(4n+4){ --tilt:.4deg; }
+  .sheet.active{ display:block; animation:settle .4s ease both; }
+  @keyframes settle{
+    from{ opacity:0; transform:rotate(var(--tilt)) translateY(12px); }
+    to  { opacity:1; transform:rotate(var(--tilt)) translateY(0); }
+  }
+
+  /* textura: grão de papel + marca de xícara de café */
+  .sheet::after{
+    content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
+    background:
+      radial-gradient(circle at 88% 91%, transparent 0 30px, rgba(112,68,22,.24) 31px 33px, rgba(112,68,22,.07) 34px 44px, transparent 45px),
+      radial-gradient(circle at 12% 7%, transparent 0 0, rgba(112,68,22,.07) 0 14px, transparent 15px),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .28  0 0 0 0 .2  0 0 0 0 .09  1.1 0 0 0 -.38'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");
+    mix-blend-mode:multiply;
+  }
+  .sheet > *{ position:relative; z-index:2; }
+
+  /* clipe de papel */
+  .sheet::before{
+    content:""; position:absolute; z-index:6; pointer-events:none;
+    top:-26px; left:46px; width:30px; height:84px;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 100'><path d='M13 66 V22 a7 7 0 0 1 14 0 V72 a11 11 0 0 1 -22 0 V26 a15 15 0 0 1 30 0 V66' fill='none' stroke='%23b8b2a4' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/><path d='M13 66 V22 a7 7 0 0 1 14 0 V72 a11 11 0 0 1 -22 0 V26 a15 15 0 0 1 30 0 V66' fill='none' stroke='%23fff' stroke-opacity='.45' stroke-width='1' stroke-linecap='round' transform='translate(-.7 -.7)'/></svg>") center/contain no-repeat;
+    filter:drop-shadow(2px 3px 2px rgba(0,0,0,.45));
+    transform:rotate(-5deg);
+  }
+
+  [contenteditable="true"]{
+    outline:none; border-bottom:1px dashed transparent; cursor:text;
+  }
+  [contenteditable="true"]:hover{ border-bottom-color:var(--line); }
+  [contenteditable="true"]:focus{ background:rgba(155,44,34,.07); border-bottom-color:var(--red); }
+
+  /* ---------- FICHA FEDERAL ---------- */
+  .fed-head{
+    display:flex; align-items:center; gap:16px;
+    border-bottom:4px double var(--ink);
+    padding-bottom:12px; margin-bottom:16px;
+  }
+  .seal{
+    width:54px; height:54px; flex:none; border-radius:50%;
+    border:2px solid var(--ink);
+    box-shadow:inset 0 0 0 3px var(--paper), inset 0 0 0 4.5px var(--ink-soft);
+    background:radial-gradient(circle, transparent 55%, rgba(42,35,24,.10) 56%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Oswald',sans-serif; font-size:9.5px; font-weight:700;
+    text-align:center; line-height:1.05; color:var(--ink-soft); letter-spacing:.04em;
+  }
+  .fed-head h1{
+    font-family:'Oswald',sans-serif; font-size:17px; letter-spacing:.07em;
+    margin:0 0 3px; text-transform:uppercase;
+  }
+  .fed-head p{ margin:0; font-size:11px; color:var(--ink-soft); letter-spacing:.05em; }
+  .fed-nums{
+    margin-left:auto; text-align:left; font-size:10.5px; line-height:1.75;
+    border:1.5px solid var(--ink); padding:4px 11px;
+    background:rgba(255,255,255,.14);
+  }
+  .fed-nums span{ display:block; white-space:nowrap; }
+
+  .fed-name{
+    position:relative;
+    font-family:'Oswald',sans-serif; font-size:27px; font-weight:700;
+    letter-spacing:.04em; text-transform:uppercase;
+    margin:4px 0 18px; padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .fed-name::before{
+    content:"SUJEITO"; display:block; font-size:9px; font-weight:600;
+    letter-spacing:.34em; color:var(--red); margin-bottom:2px;
+  }
+  .fed-name small{
+    display:block; font-family:'Special Elite',monospace; font-size:11.5px; font-weight:400;
+    color:var(--ink-soft); margin-top:4px; letter-spacing:0; text-transform:none;
+  }
+  .fed-name::after{
+    content:"ARQUIVADO";
+    position:absolute; right:4px; top:12px;
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:17px; letter-spacing:.16em;
+    color:rgba(155,44,34,.82); border:3px double rgba(155,44,34,.82);
+    padding:3px 11px 2px; border-radius:3px;
+    transform:rotate(-8deg); mix-blend-mode:multiply; pointer-events:none;
+    animation:thud .5s .25s both cubic-bezier(.2,1.4,.4,1);
+  }
+  @keyframes thud{
+    from{ opacity:0; transform:rotate(-8deg) scale(1.7); }
+    to  { opacity:1; transform:rotate(-8deg) scale(1); }
+  }
+
+  .fed-body{ display:flex; gap:24px; align-items:flex-start; }
+
+  /* foto 3x4 presa com fita */
+  .photos{
+    position:relative; flex:none; width:178px;
+    background:#f4eddb; padding:8px 8px 7px;
+    box-shadow:0 1px 0 #fff8 inset, 0 8px 16px -6px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.12);
+    transform:rotate(-1.6deg);
+  }
+  .photos::before{
+    content:""; position:absolute; top:-12px; left:50%;
+    width:78px; height:24px; margin-left:-39px;
+    background:
+      repeating-linear-gradient(90deg, rgba(255,255,255,.12) 0 2px, transparent 2px 5px),
+      rgba(230,214,150,.62);
+    box-shadow:0 1px 3px rgba(0,0,0,.25);
+    transform:rotate(-4deg); z-index:3;
+    clip-path:polygon(0 0, 100% 0, 98% 20%, 100% 40%, 98% 60%, 100% 80%, 98% 100%, 0 100%, 2% 80%, 0 60%, 2% 40%, 0 20%);
+  }
+  .photo{
+    width:100%; height:206px;
+    background:#d6c99f;
+    border:1px solid #2a2318;
+    position:relative; cursor:pointer;
+    background-size:cover; background-position:center;
+    display:flex; align-items:center; justify-content:center;
+    filter:contrast(1.06) saturate(.88) sepia(.14);
+    box-shadow:inset 0 0 22px rgba(0,0,0,.30);
+  }
+  /* régua de altura estilo foto de identificação */
+  .photo::after{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:11px;
+    background:
+      repeating-linear-gradient(to bottom, #fff 0 1px, transparent 1px 10px),
+      repeating-linear-gradient(to bottom, #fff 0 1px, transparent 1px 50px);
+    background-size:6px 100%, 11px 100%;
+    background-repeat:no-repeat;
+    mix-blend-mode:difference; opacity:.85; pointer-events:none;
+  }
+  .photo span{
+    font-size:9px; color:var(--ink-soft); text-align:center; padding:0 8px; line-height:1.4;
+  }
+  .photo-label{
+    font-size:9px; text-align:center; margin-top:6px; color:var(--ink-soft);
+    letter-spacing:.2em; text-transform:uppercase;
+  }
+
+  .fed-fields{ flex:1; font-size:12px; min-width:0; }
+  .frow{
+    display:flex; gap:14px; align-items:baseline;
+    border-bottom:1px solid rgba(139,118,72,.55);
+    padding:5px 6px;
+  }
+  .frow:nth-child(odd){ background:rgba(120,90,40,.07); }
+  .frow .flabel{
+    width:104px; flex:none; color:var(--ink-soft);
+    font-family:'Oswald',sans-serif; font-size:10px; font-weight:500;
+    letter-spacing:.13em; text-transform:uppercase;
+  }
+  .frow .fval{ flex:1; }
+  .frow.frow-natural{ padding:11px 6px 13px; }
+
+  .prints-title{
+    font-family:'Oswald',sans-serif; font-size:11.5px; font-weight:600;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft);
+    margin:26px 0 9px; padding-left:10px; border-left:4px solid var(--red);
+  }
+  .desc-lines{
+    font-size:12.5px; line-height:24px; min-height:96px; padding-top:2px; outline:none;
+    background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 22px, rgba(139,118,72,.65) 22px, rgba(139,118,72,.65) 23px);
+  }
+
+  .fed-foot{
+    display:flex; justify-content:space-between; align-items:flex-end; gap:18px;
+    margin-top:26px; padding-top:14px; border-top:1px solid var(--line);
+    font-size:11px; letter-spacing:.04em;
+  }
+  .fed-foot::before{
+    content:""; flex:none; width:132px; height:34px; align-self:center;
+    background:repeating-linear-gradient(90deg,
+      var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 5px, transparent 5px 8px,
+      var(--ink) 8px 11px, transparent 11px 13px, var(--ink) 13px 14px, transparent 14px 17px);
+    opacity:.85;
+  }
+  .sig{
+    display:inline-block; min-width:170px;
+    font-family:'Special Elite',monospace; font-size:16px;
+    border-bottom:1px solid var(--ink); padding:2px 4px;
+  }
+
+  /* ---------- DOSSIÊ CONFIDENCIAL ---------- */
+  .dos-stamp{
+    position:absolute !important; top:34px; right:26px; z-index:4;
+    border:4px double var(--red); color:var(--red);
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:17px;
+    letter-spacing:.2em; padding:6px 14px 5px; border-radius:3px;
+    transform:rotate(8deg); opacity:.88; mix-blend-mode:multiply; pointer-events:none;
+    animation:thud2 .55s .2s both cubic-bezier(.2,1.4,.4,1);
+  }
+  @keyframes thud2{
+    from{ opacity:0; transform:rotate(8deg) scale(1.8); }
+    to  { opacity:.88; transform:rotate(8deg) scale(1); }
+  }
+  .dos-title{
+    font-family:'Oswald',sans-serif; font-size:17px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase;
+    border-bottom:4px double var(--ink); padding-bottom:10px; margin-bottom:20px;
+    max-width:68%;
+  }
+  .dos-title small{
+    display:block; font-family:'Special Elite',monospace; font-size:10.5px; font-weight:400;
+    color:var(--ink-soft); margin-top:3px; letter-spacing:.08em;
+  }
+
+  .dos-field{
+    margin-bottom:12px; padding-bottom:9px;
+    font-size:12.5px; line-height:1.65;
+    border-bottom:1px dotted rgba(139,118,72,.7);
+  }
+  .dos-field:last-of-type{ border-bottom:none; }
+  .dos-field .dlabel{
+    display:inline-block; min-width:128px; vertical-align:top;
+    font-family:'Oswald',sans-serif; font-size:10.5px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-right:8px;
+  }
+
+  .redacted{
+    background:var(--redact); color:var(--redact);
+    padding:1px 5px; border-radius:1px; cursor:pointer;
+    box-decoration-break:clone; -webkit-box-decoration-break:clone;
+    box-shadow:0 0 0 1px var(--redact), 0 1px 2px rgba(0,0,0,.35);
+    transition:background .15s, color .15s;
+  }
+  .redacted:hover{ background:#2a241c; }
+  .redacted.revealed{ background:rgba(155,44,34,.10); color:var(--ink); box-shadow:none; }
+
+  .dos-note{
+    font-size:10px; color:var(--ink-soft); text-align:center; margin-top:22px;
+    border-top:1px dotted var(--line); padding-top:10px; letter-spacing:.14em; text-transform:uppercase;
+  }
+
+  /* ---------- BARRA DE FERRAMENTAS ---------- */
+  .toolbar{
+    max-width:760px; margin:26px auto 0; display:flex; justify-content:center; gap:10px;
+    position:relative; z-index:2;
+  }
+  .btn{
+    font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    background:transparent; border:1px solid #6f6146; color:#cdbf9d;
+    padding:9px 20px; cursor:pointer; border-radius:2px; transition:background .15s;
+  }
+  .btn:hover{ background:#2a231a; }
+
+  input[type=file]{ display:none; }
+
+  @media print{
+    body{ background:#fff; padding:0; }
+    body::before{ display:none; }
+    .masthead,.tabs,.toolbar,.intro{ display:none; }
+    .sheet{ display:block !important; box-shadow:none; transform:none; animation:none; }
+    .sheet::before{ display:none; }
+  }
+
+  @media (max-width:560px){
+    body{ padding:28px 10px 70px; }
+    .tab{ font-size:11px; padding:6px 10px 8px; }
+    .sheet{ padding:34px 18px 26px; }
+    .fed-body{ flex-direction:column; align-items:center; }
+    .fed-fields{ width:100%; }
+    .fed-head{ flex-wrap:wrap; }
+    .fed-nums{ margin-left:0; }
+    .fed-name{ font-size:22px; }
+    .fed-name::after{ display:none; }
+    .fed-foot{ flex-wrap:wrap; }
+    .fed-foot::before{ display:none; }
+    .dos-title{ max-width:100%; margin-top:28px; }
+    .dos-stamp{ top:18px; right:12px; font-size:13px; }
+    .dos-field .dlabel{ display:block; min-width:0; }
+  }
+
+
+  .gametabs .tab::before{ content:attr(data-n); display:block; font-family:'Special Elite',monospace; font-weight:400; font-size:8.5px; letter-spacing:.14em; color:var(--red); margin-bottom:2px; }
+  .gametabs .tab.oraculo{ background:linear-gradient(#b9564a,#7d2a22); color:#f3e3c3; border-color:#4a1510; }
+  .gametabs .tab.oraculo::before{ color:#f0c9a0; }
+  .gametabs .tab.oraculo.active{ background:linear-gradient(#d86a5c,#9b2c22); }
+  .photo.empty span{ font-size:10px; }
+  .photo.empty{ background-image:radial-gradient(circle at 50% 38%, rgba(42,35,24,.22) 0 22px, transparent 23px), radial-gradient(ellipse at 50% 100%, rgba(42,35,24,.22) 0 52px, transparent 53px); }
+  .fed-name.stamp-campo::after{ content:"EM CAMPO" !important; }
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:4px 0 6px; }
+  .stat{ border:1.5px solid var(--ink); padding:7px 6px 6px; text-align:center; background:rgba(255,255,255,.14); }
+  .stat b{ display:block; font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--red); font-weight:600; }
+  .stat .dots{ font-size:17px; letter-spacing:3px; line-height:1.3; }
+  .stat small{ display:block; font-size:9.5px; color:var(--ink-soft); line-height:1.3; }
+  .blk{ font-size:12.5px; line-height:1.65; margin:0 0 6px; }
+  .blk p{ margin:0 0 8px; }
+  .blk b.l{ font-family:'Oswald',sans-serif; font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--red); font-weight:600; margin-right:6px; }
+  ul.lst{ margin:4px 0 8px 18px; padding:0; font-size:12.5px; line-height:1.6; }
+  ul.lst li{ margin-bottom:4px; }
+  .secret{ border:1.5px dashed var(--red); padding:9px 12px; background:rgba(155,44,34,.05); font-size:12.5px; line-height:1.6; }
+  .secret b.l{ color:var(--red); }
+  table.tbl{ width:100%; border-collapse:collapse; font-size:11.5px; line-height:1.5; margin:6px 0 10px; }
+  table.tbl th{ font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.13em; text-transform:uppercase; text-align:left; color:var(--ink-soft); border-bottom:2px solid var(--ink); padding:4px 6px; }
+  table.tbl td{ vertical-align:top; padding:6px; border-bottom:1px dotted rgba(139,118,72,.75); }
+  table.tbl td:first-child{ font-family:'Oswald',sans-serif; font-weight:600; letter-spacing:.05em; white-space:nowrap; }
+  .warn{ font-size:11px; letter-spacing:.06em; text-align:center; border:2px solid var(--red); color:var(--red); padding:6px 10px; margin:0 0 16px; font-family:'Oswald',sans-serif; text-transform:uppercase; }
+  .sheet.wide .dos-title{ max-width:70%; }
+  @media (max-width:560px){ .stats{ grid-template-columns:repeat(2,1fr); } .sheet.wide .dos-title{ max-width:100%; } }
+
+  .cond{ display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; padding:4px 2px; }
+  .cond span{ white-space:nowrap; }
+  .cond i{ font-style:normal; font-size:17px; vertical-align:-2px; margin-right:5px; }
+  table.tbl td.k{ font-family:'Special Elite',monospace; font-weight:400; white-space:normal; letter-spacing:0; }
+  .ev3{ margin:0; padding:0; list-style:none; }
+  .ev3 li{ margin:0 0 3px; }
+  .ev3 b{ font-family:'Oswald',sans-serif; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--red); margin-right:4px; }
+  .reg{ border:1.5px solid var(--ink); background:rgba(255,255,255,.14); padding:8px 12px 6px; margin:0 0 10px; }
+  .reg h4{ margin:0 0 4px; font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+  .reg .ln{ min-height:22px; border-bottom:1px solid rgba(139,118,72,.7); font-size:12.5px; line-height:22px; }
+
+
+  /* ---------- VOLTAR À CAPA ---------- */
+  .back-bar{ max-width:760px; margin:-18px auto 22px; position:relative; z-index:2; }
+  .back{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Oswald',sans-serif; font-size:11px; font-weight:500;
+    letter-spacing:.16em; text-transform:uppercase; text-decoration:none;
+    color:#cdbf9d; border:1px solid #6f6146; border-radius:2px;
+    padding:7px 14px 6px; transition:background .15s, color .15s, border-color .15s;
+  }
+  .back:hover, .back:focus-visible{ background:#cdbf9d; color:#1b1511; border-color:#cdbf9d; outline:none; }
+  .back span{ font-size:14px; line-height:1; }
+  @media print{ .back-bar{ display:none; } }
+  @media (max-width:560px){ .back-bar{ margin:-8px auto 18px; } }
+</style>
+</head>
+<body>
+<nav class="back-bar"><a class="back" href="index.html" aria-label="Voltar para a capa do Mistoráculo"><span>←</span> Voltar ao arquivo</a></nav>
+<div class="masthead">
+  <div class="kicker">Mistoráculo · Arquivo Folclórico</div>
+  <h1>Cadê a <em>professora?</em></h1>
+  <div class="sub">Operação: Lendas Desconhecidas — 6 alunos e 1 Oráculo</div>
+  <div class="rule"></div>
+</div>
+<div class="tabs gametabs" id="tabs"><div class="tab " data-n="Dossiê" data-target="s-caso">O caso</div><div class="tab " data-n="Manual" data-target="s-regras">Regras</div><div class="tab " data-n="Grupo" data-target="s-ficha">Investigação</div><div class="tab oraculo" data-n="Mestre" data-target="s-oraculo">Oráculo</div><div class="tab " data-n="Aluno 01" data-target="s-bia">Bia</div><div class="tab " data-n="Aluno 02" data-target="s-theo">Théo</div><div class="tab " data-n="Aluno 03" data-target="s-yasmin">Yasmin</div><div class="tab " data-n="Aluno 04" data-target="s-davi">Davi</div><div class="tab " data-n="Aluno 05" data-target="s-luna">Luna</div><div class="tab " data-n="Aluno 06" data-target="s-gael">Gael</div></div>
+<div class="stage">
+
+<div class="sheet wide" id="s-caso">
+  <div class="dos-stamp">CASO ABERTO</div>
+  <div class="dos-title">Onde está a professora Marlene?<small>Arquivo Folclórico · Operação: Lendas Desconhecidas · 6 alunos + 1 Oráculo</small></div>
+  <div class="warn">Jogadores: esta aba é a apresentação do caso. Os segredos estão na aba do Oráculo.</div>
+
+  <div class="dos-field"><span class="dlabel">A viagem</span><span contenteditable="true">A turma do 9º ano B está numa aula de campo de três dias na <b>Comunidade Nova Esperança</b>, no meio da região amazônica, a duas horas de barco da cidade. A professora <b>Marlene Rocha</b>, de Biologia, organizou tudo. Com ela vieram o professor Anselmo, de Educação Física, e o guia da comunidade, <b>Seu Zeca Pantoja</b>.</span></div>
+
+  <div class="dos-field"><span class="dlabel">O que aconteceu</span><span contenteditable="true">Na manhã do segundo dia, a professora Marlene não apareceu para o café. A cama estava arrumada, a mochila principal no lugar, mas a câmera, a lanterna e a bota sumiram. O professor Anselmo voltou à cidade de barco para buscar ajuda, e na prática quem ficou no comando da busca é a turma.</span></div>
+
+  <div class="dos-field"><span class="dlabel">A comunidade</span><span contenteditable="true">Nova Esperança foi formada por famílias que vieram de vários lugares do Brasil: do Nordeste, de Minas, de São Paulo. Cada família trouxe junto suas histórias, e as lendas de lá se misturaram com as da floresta. Por isso, quando alguém fala de bicho, a conversa pode virar qualquer mapa do Brasil.</span></div>
+
+  <div class="dos-field"><span class="dlabel">Objetivo</span><span contenteditable="true">Encontrar a professora. Para isso, a turma investiga o ambiente, conhece as <b>entidades do Arquivo</b>, reúne <b>três evidências</b> de cada uma e fecha <b>três registros</b>. Depois vai ao <b>Arquivo Central</b>, onde precisa montar uma hipótese com tudo o que descobriu.</span></div>
+
+  <div class="dos-field"><span class="dlabel">Lendas que ajudam</span><span contenteditable="true">Algumas lendas bem conhecidas, como o <b>Curupira</b>, a <b>Iara</b>, o <b>Boitatá</b>, o <b>Saci</b> e o <b>Boto</b>, podem aparecer no caminho para ajudar a turma. Elas não são entidades do Arquivo e não entram nos registros, mas dão um empurrão na hora certa.</span></div>
+
+  <div class="dos-field"><span class="dlabel">Como se joga</span><span contenteditable="true">Veja a aba <b>Regras</b>. Em resumo: o Oráculo conduz as cartas, o grupo investiga uma entidade por vez e preenche a <b>Ficha de investigação</b> coletiva.</span></div>
+
+  <div class="prints-title">entidades do Arquivo · as 8 lendas desconhecidas</div>
+  <table class="tbl"><tr><th>Nº</th><th>Nome</th><th>De onde vem</th><th>Em uma frase</th></tr>
+    <tr><td>01</td><td>Capelobo</td><td class="k">Pará, Maranhão e Amazonas</td><td>Criatura peluda de focinho de tamanduá e pegadas redondas.</td></tr>
+    <tr><td>02</td><td>Mapinguari</td><td class="k">Floresta amazônica</td><td>Gigante peludo de um olho só, fedor insuportável e pés virados para trás.</td></tr>
+    <tr><td>03</td><td>Abúhukü</td><td class="k">Amazônia (povo Cubeo)</td><td>Criatura noturna das copas das árvores, usada como bicho-papão em brincadeiras.</td></tr>
+    <tr><td>04</td><td>Comadre Fulozinha</td><td class="k">Zona da Mata (PE e PB)</td><td>Espírito ágil que protege a mata e ajuda quem respeita a natureza.</td></tr>
+    <tr><td>05</td><td>Unhudo</td><td class="k">Pedra Branca (SP)</td><td>Guardião da mata, de unhas grandes e chapéu de palha.</td></tr>
+    <tr><td>06</td><td>Caboclo d’Água</td><td class="k">Rio São Francisco</td><td>Ser baixinho de um olho só, guardião das águas.</td></tr>
+    <tr><td>07</td><td>Labatut</td><td class="k">Sertão (CE e RN)</td><td>Monstro de um olho só que ouve qualquer som e vem com ventania.</td></tr>
+    <tr><td>08</td><td>Encourado</td><td class="k">Interior do Nordeste</td><td>Figura toda de couro preto, que só entra em casa se for convidada.</td></tr>
+  </table>
+  <div class="blk"><p>Os dossiês completos de cada entidade estão no <b>arquivo digital</b>, acessado por QR Code nas cartas.</p></div>
+
+  <div class="prints-title">locais</div>
+  <table class="tbl"><tr><th>Local</th><th>O que há por lá</th></tr>
+    <tr><td>1 · O alojamento</td><td>Casa de madeira onde a turma dorme. A cama da professora está arrumada.</td></tr>
+    <tr><td>2 · A cozinha</td><td>Dona Lúcia fala sem parar, sabe de tudo e faz o café mais forte da floresta.</td></tr>
+    <tr><td>3 · O porto</td><td>Pequeno atracadouro de onde saiu o barco do prof. Anselmo. As canoas da comunidade estão amarradas.</td></tr>
+    <tr><td>4 · A trilha leste</td><td>Caminho de lama, raízes enormes e galhos baixos.</td></tr>
+    <tr><td>5 · A clareira dos “pescadores”</td><td>Parte afastada da mata, onde a vegetação foi aberta há pouco tempo.</td></tr>
+    <tr><td>6 · A ravina das Sapopemas</td><td>Grota funda entre raízes enormes, a quase uma hora de caminhada. Poucos conhecem.</td></tr>
+  </table>
+
+  <div class="prints-title">pessoas</div>
+  <table class="tbl"><tr><th>Nome</th><th>Quem é</th></tr>
+    <tr><td>Seu Zeca Pantoja</td><td>58 anos, guia da comunidade, de poucas palavras. Anda sempre com uma tábua velha na mochila.</td></tr>
+    <tr><td>Dona Lúcia</td><td>Cozinheira da comunidade, extrovertida. Tem uma história para cada lenda.</td></tr>
+    <tr><td>Professor Anselmo</td><td>Foi à cidade buscar ajuda.</td></tr>
+    <tr><td>Dona Benedita</td><td>A moradora mais velha. Fala por enigmas.</td></tr>
+    <tr><td>Raul e Jair</td><td>Dois homens que “vieram pescar” e estão hospedados na casa de farinha. Evitam a turma.</td></tr>
+  </table>
+  <div class="dos-note">Registro aberto · material de jogo · editável (clique nos textos)</div>
+</div>
+
+<div class="sheet wide" id="s-regras">
+  <div class="dos-stamp">REGRAS</div>
+  <div class="dos-title">Arquivo Folclórico<small>Operação: Lendas Desconhecidas · escopo, componentes e regras demonstrativas</small></div>
+  <div class="warn">Documento de trabalho · projeto piloto. As regras servem para demonstrar a lógica da experiência.</div>
+
+  <div class="prints-title">1 · conceito e objetivo</div>
+  <div class="blk" contenteditable="true"><p>Jogo narrativo de investigação para adolescentes de 13 a 15 anos, que apresenta e valoriza narrativas do folclore brasileiro pouco conhecidas. Os participantes são estudantes envolvidos numa situação misteriosa durante uma viagem à região amazônica. Depois do desaparecimento da professora, precisam investigar o ambiente, reunir informações e compreender o que encontram na busca.</p>
+  <p><b class="l">Objetivo</b> Encontrar a professora desaparecida usando as pistas e informações descobertas ao longo da investigação.</p></div>
+
+  <div class="prints-title">2 · componentes</div>
+  <table class="tbl"><tr><th>Componente</th><th>Função</th></tr>
+    <tr><td>Cartas de Entidade (8)</td><td>Apresentam as entidades folclóricas relacionadas à investigação.</td></tr>
+    <tr><td>Cartas de Investigação (20)</td><td>Apresentam pistas, perguntas, vestígios e desafios investigativos.</td></tr>
+    <tr><td>Cartas de Ocorrência (20)</td><td>Introduzem acontecimentos inesperados que interferem na jornada.</td></tr>
+    <tr><td>Dado D8</td><td>Determina a carta de Entidade.</td></tr>
+    <tr><td>Dado D20</td><td>Determina as cartas de Investigação e Ocorrência.</td></tr>
+    <tr><td>Ficha de personagem</td><td>Acompanha as condições e informações individuais de cada participante.</td></tr>
+    <tr><td>Ficha de investigação</td><td>Organiza pistas, evidências, descobertas e hipóteses do grupo.</td></tr>
+    <tr><td>Dossiês digitais em HTML</td><td>Informações complementares sobre as entidades, acessadas por QR Code.</td></tr>
+  </table>
+
+  <div class="prints-title">3 · como são as cartas</div>
+  <table class="tbl"><tr><th>Carta</th><th>O que traz</th></tr>
+    <tr><td>Entidade</td><td>Número, nome, ilustração, região de origem, breve descrição, características marcantes, chamada narrativa ligada à investigação e QR Code do dossiê.</td></tr>
+    <tr><td>Investigação</td><td>Número, categoria (vestígio, testemunho, documento ou observação), título, descrição da pista, pergunta ou tarefa e a informação que pode ser registrada. As cartas não entregam a solução: estimulam o grupo a observar, comparar e relacionar.</td></tr>
+    <tr><td>Ocorrência</td><td>Número do D20, dificuldade, título, descrição narrativa e consequência. A escala é inversa: quanto menor o resultado, mais difícil a ocorrência; resultados maiores são situações simples ou favoráveis.</td></tr>
+  </table>
+
+  <div class="prints-title">4 · preparação</div>
+  <ul class="lst">
+    <li>Grupo de até <b>seis pessoas</b>, representando os estudantes. Cada um recebe uma <b>ficha de personagem</b>.</li>
+    <li>O grupo recebe uma <b>ficha de investigação</b> coletiva.</li>
+    <li>As cartas ficam separadas em <b>Entidade, Investigação e Ocorrência</b>; os dados D8 e D20 ficam à mão.</li>
+    <li>A narrativa de abertura apresenta o desaparecimento da professora e a missão dos estudantes. Quem faz isso é o <b>Oráculo</b>, a pessoa responsável pela história.</li>
+  </ul>
+
+  <div class="prints-title">5 · seleção das cartas</div>
+  <table class="tbl"><tr><th>Categoria</th><th>Dado</th><th>Quantidade</th></tr>
+    <tr><td>Entidade</td><td class="k">D8</td><td class="k">8 cartas</td></tr>
+    <tr><td>Investigação</td><td class="k">D20</td><td class="k">20 cartas</td></tr>
+    <tr><td>Ocorrência</td><td class="k">D20</td><td class="k">20 cartas</td></tr>
+  </table>
+  <div class="blk"><p>O resultado do dado indica a carta correspondente. Cada categoria tem sua própria numeração.</p></div>
+
+  <div class="prints-title">6 · sequência de uma rodada</div>
+  <ul class="lst">
+    <li><b>1 · Investigação:</b> o grupo recebe uma carta de Investigação e interpreta a pista ou situação.</li>
+    <li><b>2 · Ocorrência:</b> o D20 seleciona uma carta de Ocorrência, que traz um acontecimento capaz de interferir na jornada.</li>
+    <li><b>3 · Registro:</b> os participantes atualizam suas fichas com as informações e evidências descobertas.</li>
+  </ul>
+  <div class="blk"><p>As cartas de <b>Entidade</b> entram quando a narrativa ou uma pista indicar um encontro ou manifestação ligada ao folclore. O D8 decide qual das oito aparece. A sequência é uma referência e pode ser reorganizada pelo roteiro.</p></div>
+
+  <div class="prints-title">7 · como funciona uma investigação</div>
+  <table class="tbl"><tr><th>Etapa</th><th>O que acontece</th></tr>
+    <tr><td>Descoberta</td><td>O grupo recebe uma carta de Entidade e conhece a figura folclórica relacionada à investigação.</td></tr>
+    <tr><td>Consulta</td><td>Os participantes acessam o dossiê digital por QR Code para saber mais.</td></tr>
+    <tr><td>Investigação</td><td>As cartas apresentam perguntas, vestígios e situações que exigem interpretação.</td></tr>
+    <tr><td>Evidência</td><td>Quando uma pista é identificada e compreendida, o grupo a registra como evidência na ficha.</td></tr>
+    <tr><td>Conclusão</td><td>Com <b>três evidências</b> da mesma entidade, o grupo conclui o registro dela.</td></tr>
+  </table>
+  <div class="blk"><p>Cada evidência pertence a uma entidade específica: <b>não se somam evidências de entidades diferentes</b> para completar um único registro. Recomenda-se <b>uma investigação ativa por vez</b>.</p></div>
+
+  <div class="prints-title">8 · ocorrências e consequências</div>
+  <ul class="lst">
+    <li>Efeitos curtos e fáceis de entender: impedir temporariamente a ação de um personagem, interromper a investigação, exigir revisão de informações, trazer pista complementar, revelar novo vestígio ou mudar as condições da jornada.</li>
+    <li>Uma ocorrência <b>não apaga evidências</b> já conquistadas nem registros de entidades concluídas.</li>
+    <li>Nenhuma consequência pode impedir um participante de continuar na experiência de forma definitiva.</li>
+  </ul>
+
+  <div class="prints-title">9 · cartas especiais de apoio</div>
+  <table class="tbl"><tr><th>Carta</th><th>Função</th></tr>
+    <tr><td>Denúncia Anônima</td><td>Traz uma informação inicial que permite apresentar uma nova entidade.</td></tr>
+    <tr><td>Relato de Testemunha</td><td>Traz um relato complementar e pode dar uma evidência da entidade ativa.</td></tr>
+    <tr><td>Vestígios Encontrados</td><td>Dá uma oportunidade extra de investigação e registro de evidência.</td></tr>
+  </table>
+  <div class="blk"><p><b class="l">Regra de segurança</b> Se o grupo passar por <b>duas rodadas</b> sem encontrar uma entidade, recebe uma Denúncia Anônima para movimentar a investigação.</p></div>
+
+  <div class="prints-title">10 · conclusão da missão</div>
+  <ul class="lst">
+    <li>O grupo reúne <b>três evidências</b> sobre uma entidade e conclui o registro dela na ficha.</li>
+    <li>Repete o processo até ter <b>três registros de entidades diferentes</b>.</li>
+    <li>Acessa o momento final, o <b>Arquivo Central</b>.</li>
+    <li>Enfrenta um <b>desafio de síntese</b>, relacionando as informações coletadas.</li>
+    <li>Ao resolver o desafio, descobre o <b>paradeiro da professora</b>.</li>
+  </ul>
+  <div class="blk"><p>O desafio final usa só informações que já apareceram nas cartas e nos dossiês: não exige conhecimento externo nem apresenta uma entidade desconhecida.</p></div>
+  <div class="dos-note">Protótipo conceitual · não é um sistema de jogo integralmente validado</div>
+</div>
+
+<div class="sheet wide" id="s-ficha">
+  <div class="dos-stamp">EM ANDAMENTO</div>
+  <div class="dos-title">Ficha de investigação<small>Ficha coletiva do grupo · organize pistas, evidências e hipóteses</small></div>
+  <div class="warn">Uma evidência só vale para a entidade a que pertence. Não misture entidades diferentes num mesmo registro.</div>
+  <div class="dos-field"><span class="dlabel">Entidade ativa</span><span contenteditable="true">______________________</span></div>
+  <div class="dos-field"><span class="dlabel">Rodada nº</span><span contenteditable="true">____</span> &nbsp; <span class="dlabel" style="min-width:0">Rodadas sem entidade</span><span contenteditable="true">____</span></div>
+  <div class="reg"><h4>Registro 1 · entidade: <span contenteditable="true">__________</span></h4><div class="ln" contenteditable="true">Evidência 1:</div><div class="ln" contenteditable="true">Evidência 2:</div><div class="ln" contenteditable="true">Evidência 3:</div><div class="ln" style="border:none"><span contenteditable="true">☐ registro concluído</span></div></div><div class="reg"><h4>Registro 2 · entidade: <span contenteditable="true">__________</span></h4><div class="ln" contenteditable="true">Evidência 1:</div><div class="ln" contenteditable="true">Evidência 2:</div><div class="ln" contenteditable="true">Evidência 3:</div><div class="ln" style="border:none"><span contenteditable="true">☐ registro concluído</span></div></div><div class="reg"><h4>Registro 3 · entidade: <span contenteditable="true">__________</span></h4><div class="ln" contenteditable="true">Evidência 1:</div><div class="ln" contenteditable="true">Evidência 2:</div><div class="ln" contenteditable="true">Evidência 3:</div><div class="ln" style="border:none"><span contenteditable="true">☐ registro concluído</span></div></div>
+  <div class="prints-title">pistas soltas (ainda sem entidade)</div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="prints-title">hipóteses do grupo</div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="prints-title">arquivo central · síntese</div>
+  <div class="blk"><p>Quando os três registros estiverem fechados, responda: <b>quando</b> ela saiu, <b>por que</b> saiu e <b>para onde</b> foi. Justifique com as evidências.</p></div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="dos-note">Ficha coletiva · edite direto na página ou imprima</div>
+</div>
+
+<div class="sheet wide" id="s-oraculo">
+  <div class="dos-stamp">CONFIDENCIAL</div>
+  <div class="dos-title">Ficha do Oráculo<small>Onde está a professora Marlene? · só o Oráculo lê esta aba</small></div>
+  <div class="warn">Segredos, ajustes das cartas e roteiro. Clique nas tarjas pretas para revelar.</div>
+
+  <div class="prints-title">seu papel</div>
+  <div class="blk" contenteditable="true"><p>O Oráculo é a pessoa responsável pela história no <b>Arquivo Folclórico</b>. Você faz a narrativa de abertura, interpreta os adultos, conduz as cartas conforme a aba <b>Regras</b> e liga cada pista ao enredo desta ficha. Não entregue a solução: deixe o grupo observar, comparar e relacionar. Os alunos têm de 14 a 16 anos: trate-os como detetives capazes.</p></div>
+
+  <div class="prints-title">a verdade</div>
+  <div class="secret"><b class="l">O que aconteceu de verdade</b><br>
+  <span class="redacted">Às 5h10, a professora Marlene saiu sozinha do alojamento, de capa, câmera e lanterna. Ela é pesquisadora de folclore e havia anotado um relato da Dona Lúcia sobre barulho e luzes perto da ravina das Sapopemas. Também queria fotografar a clareira onde alguns homens abriram o mato. Deixou um bilhete na canoa (“volto antes do almoço”), uma oferenda na trilha (a cuia) e marcou o caminho com galhos dobrados. Na ravina, escorregou numa pedra lisa e torceu o tornozelo. Está <b>viva, abrigada na entrada de uma gruta</b>, com água e capa, esperando ser achada. Raul e Jair, que caçam ilegalmente, viram a queda de longe, esconderam a mochila dela por medo e passaram a espalhar que “foi o Mapinguari”. Seu Zeca desconfiava dos dois e fazia pegadas falsas com uma tábua entalhada, para assustar caçadores.</span></div>
+
+  <div class="prints-title">os três pontos da verdade</div>
+  <table class="tbl"><tr><th>Ponto</th><th>O que a turma precisa concluir</th></tr>
+    <tr><td>A · Saída voluntária</td><td>Ela saiu cedo, sozinha, por conta própria e com preparo. Ninguém a levou à força.</td></tr>
+    <tr><td>B · Rumo</td><td>Foi para o leste, pela trilha e pelo igarapé raso, em direção à ravina das Sapopemas.</td></tr>
+    <tr><td>C · Estado</td><td>Nenhuma entidade nem pessoa a atacou. Ela está viva, ferida e abrigada.</td></tr>
+  </table>
+  <div class="blk" contenteditable="true"><p><b class="l">Como o roteiro encaixa nas regras</b> Cada entidade traz três evidências, uma de cada ponto (A, B e C). Assim, quaisquer <b>três registros</b> que o D8 sortear cobrem a verdade inteira, e o Arquivo Central pode ser resolvido com qualquer combinação.</p></div>
+
+  <div class="prints-title">as 8 entidades · chamada e evidências</div>
+  <table class="tbl"><tr><th>Nº</th><th>Entidade</th><th>Chamada narrativa e 3 evidências (A, B, C)</th></tr><tr><td>01</td><td><b>Capelobo</b></td><td class="k">“O cachorro do acampamento volta ganindo e se esconde embaixo da cama. Perto da margem, pegadas redondas e fundas, como fundo de garrafa.”<ul class="ev3"><li><b>A</b>Ao lado das pegadas redondas há marcas de bota num passo calmo e regular. Quem andou ali não fugia de nada.</li><li><b>B</b>As marcas de bota se afastam das redondas e seguem para o leste, rumo ao trecho mais fechado da várzea.</li><li><b>C</b>O cachorro traz um pedaço de bandana da professora, sem sangue e sem rasgo: só a seguiu e voltou.</li></ul></td></tr><tr><td>02</td><td><b>Mapinguari</b></td><td class="k">“De manhã, um grito comprido ecoa na mata. Davi avisa: não respondam. Há galhos quebrados na trilha leste.”<ul class="ev3"><li><b>A</b>Os galhos estão dobrados à altura de uma pessoa, um a um, como quem marca o caminho para voltar. Foi de propósito.</li><li><b>B</b>Os galhos dobrados formam uma linha reta apontando para o leste, até a ravina.</li><li><b>C</b>Não há árvores derrubadas, pegadas de pés virados nem o fedor do caminho: nada enorme a perseguiu.</li></ul></td></tr><tr><td>03</td><td><b>Abúhukü</b></td><td class="k">“Um aluno ouve algo se mexendo nas copas durante a noite. Ao amanhecer, folhas de palmeira dobradas e amarradas num galho baixo.”<ul class="ev3"><li><b>A</b>Dentro das folhas há restos de lanche: pão e embalagem de barra de cereal. Alguém se preparou para um passeio.</li><li><b>B</b>O embrulho foi deixado de propósito num galho à beira da trilha leste, como quem marca um lugar.</li><li><b>C</b>Nada de pele, sangue ou sinais de ataque. A criatura, “pouco inteligente”, só mexeu nas folhas.</li></ul></td></tr><tr><td>04</td><td><b>Comadre Fulozinha</b></td><td class="k">“A crina do cavalo da comunidade amanhece cheia de nós impossíveis de desatar. Na beira da trilha, uma cuia vazia de mel.”<ul class="ev3"><li><b>A</b>A cuia tem as iniciais “M.R.” riscadas: a professora deixou uma oferenda ao entrar na mata, por respeito, de caso pensado.</li><li><b>B</b>Um fio de cabelo preso num galho e um caminho novo aberto no mato apontam para o leste.</li><li><b>C</b>A cuia está limpa e não há sinal de punição ao redor. A Mãe da Mata ajuda quem respeita e se perde.</li></ul></td></tr><tr><td>05</td><td><b>Unhudo</b></td><td class="k">“Perto da trilha, um chapéu de palha velho no chão e uma touceira de orquídeas arrancada, jogada longe, como se arremessada.”<ul class="ev3"><li><b>A</b>Perto do chapéu há uma anotação a lápis, com letra da professora: “orquídeas arrancadas — fotografar — 5h40”.</li><li><b>B</b>A anotação traz uma seta desenhada, apontando para o leste, em direção às grotas e cavernas.</li><li><b>C</b>Nada foi arremessado do lado dela. A bota dela marcou a lama voltada para dentro: cruzou o riacho sozinha.</li></ul></td></tr><tr><td>06</td><td><b>Caboclo d’Água</b></td><td class="k">“A canoa mais velha amanhece virada na margem, com uma estrela pintada no casco. O barqueiro jura que algo bateu na água de madrugada.”<ul class="ev3"><li><b>A</b>Na proa há um bilhete dobrado: “Volto antes do almoço. M.” Foi escrito sem pressa e sem medo.</li><li><b>B</b>Na lama da margem, pegadas de bota atravessam o igarapé raso e seguem para o leste.</li><li><b>C</b>A água amanheceu calma e limpa, sem destroços. O “castigo” da lenda não aconteceu: nada indica afogamento.</li></ul></td></tr><tr><td>07</td><td><b>Labatut</b></td><td class="k">“De madrugada, uma ventania forte atravessa a clareira. Todos ficam em silêncio, porque a lenda diz que ele ouve qualquer som.”<ul class="ev3"><li><b>A</b>Quem acordou ouviu passos leves e um zíper de mochila, alguém saindo em silêncio, sem tropeçar nem correr.</li><li><b>B</b>Uma faixa de capim amassado atravessa a clareira e entra na trilha leste.</li><li><b>C</b>Ninguém gritou, nenhuma criança foi tocada. O único som além do vento foram os passos calmos dela.</li></ul></td></tr><tr><td>08</td><td><b>Encourado</b></td><td class="k">“Um aluno jura ter visto uma figura de roupa escura à beira da trilha. De manhã, a porta do alojamento está entreaberta.”<ul class="ev3"><li><b>A</b>A porta só abre por dentro. Ninguém a convidou para entrar: a professora a abriu e fechou ao sair.</li><li><b>B</b>A “figura de couro” era uma capa de chuva preta, vista de longe por quem estava de vigia, indo para o leste.</li><li><b>C</b>Não há cheiro de sangue: era cheiro de couro molhado da bota dela. Falta a capa no cabide: ela previa demorar.</li></ul></td></tr></table>
+  <div class="blk" contenteditable="true"><p><b class="l">Carta reserva</b> A <b>Cabra Cabriola</b> (Piauí e Pernambuco) ficou de fora porque o Arquivo tem 8 cartas. Se quiserem usá-la, troquem uma das 8. Ela serviria como alerta moral de crianças que andam sozinhas à noite.</p>
+  <p><b class="l">Quando usar o D8</b> Use a carta 16 (“Uma história conhecida”), uma Denúncia Anônima ou o fim de uma conversa com um adulto. Repetiu uma entidade já concluída? Vale lembrar que ela já foi registrada e rolar de novo.</p></div>
+
+  <div class="prints-title">as 20 cartas de investigação nesta história</div>
+  <table class="tbl"><tr><th>Nº</th><th>Carta</th><th>Na nossa história</th></tr><tr><td>01</td><td><b>Pegadas na terra</b></td><td class="k">Bota número 38, em passo calmo, indo para o leste.</td></tr><tr><td>02</td><td><b>Objeto abandonado</b></td><td class="k">A mochila de campo da professora, escondida sob folhas por Raul e Jair. Alguém quis escondê-la.</td></tr><tr><td>03</td><td><b>Marcas na vegetação</b></td><td class="k">Galhos dobrados em linha reta para o leste (marcação deliberada).</td></tr><tr><td>04</td><td><b>Um som durante a noite</b></td><td class="k">Passos leves e zíper de mochila, ouvidos por Gael.</td></tr><tr><td>05</td><td><b>Anotações incompletas</b></td><td class="k">Caderno dela, com trechos apagados: “relato da Lúcia… luz/barulho na ra… voltar antes do almo…”</td></tr><tr><td>06</td><td><b>O acampamento</b></td><td class="k">Cabide sem a capa, lanterna e câmera faltando, porta aberta por dentro.</td></tr><tr><td>07</td><td><b>Rastros desconhecidos</b></td><td class="k">Pegadas de pés virados: carimbos da tábua do Seu Zeca (falsas).</td></tr><tr><td>08</td><td><b>Relato contraditório</b></td><td class="k">Gael diz que viu a professora às 5h, Théo fotografou às 5h40. Bia reconcilia horários.</td></tr><tr><td>09</td><td><b>Mapa da região</b></td><td class="k">Marcação a lápis na ravina das Sapopemas, feita pela professora.</td></tr><tr><td>10</td><td><b>Um caminho diferente</b></td><td class="k">Trilha lateral estreita que só Davi reconhece, atalho para a ravina.</td></tr><tr><td>11</td><td><b>Fragmentos encontrados</b></td><td class="k">Lascas de madeira entalhada: pedaços do carimbo do Seu Zeca.</td></tr><tr><td>12</td><td><b>O último contato</b></td><td class="k">Luna lembra: “amanhã quero ver o amanhecer na mata”.</td></tr><tr><td>13</td><td><b>Registro de horário</b></td><td class="k">Caderno marca saída às 5h10. Confirma que foi cedo.</td></tr><tr><td>14</td><td><b>Sinais na margem do rio</b></td><td class="k">Pegadas atravessando o igarapé raso, canoas amarradas.</td></tr><tr><td>15</td><td><b>Um rastro interrompido</b></td><td class="k">As pegadas somem numa pedra lisa na beira da ravina.</td></tr><tr><td>16</td><td><b>Uma história conhecida</b></td><td class="k">Dona Lúcia conta um relato; Davi identifica de qual entidade é. É o momento de rolar o D8.</td></tr><tr><td>17</td><td><b>Informação regional</b></td><td class="k">As famílias da comunidade trouxeram suas lendas de vários estados. Explica a mistura de entidades.</td></tr><tr><td>18</td><td><b>Comportamento incomum</b></td><td class="k">Os animais da mata se calam perto da ravina; Raul e Jair mudam de assunto.</td></tr><tr><td>19</td><td><b>Conexão entre evidências</b></td><td class="k">Horário + bota + leste. O grupo liga as evidências.</td></tr><tr><td>20</td><td><b>Reconstrução dos acontecimentos</b></td><td class="k">Chama o Arquivo Central.</td></tr></table>
+  <div class="blk" contenteditable="true"><p><b class="l">Atenção</b> As cartas 02, 07, 09 e 11 são vestígios que <b>não valem como evidência de entidade</b>, mas ajudam no Arquivo Central. As cartas 07 e 11 são falsas pistas do Seu Zeca; quando o grupo descobrir, dê a chance de ele explicar que só queria proteger a mata.</p></div>
+
+  <div class="prints-title">cartas especiais de apoio</div>
+  <table class="tbl"><tr><th>Carta</th><th>Exemplos</th></tr>
+    <tr><td>Denúncia Anônima</td><td class="k">• Bilhete na porta: “Os homens da casa de farinha não vieram pescar.”<br>• Recado no caderno da Bia, sem assinatura: “Perguntem à Dona Lúcia sobre a luz da ravina.”<br>• Mensagem a lápis na cozinha: “O barulho da madrugada não era bicho.”</td></tr>
+    <tr><td>Relato de Testemunha</td><td class="k">• Dona Lúcia: “Ela perguntou do caminho da ravina e eu mandei o menino esquecer.”<br>• Um menino da comunidade: “Vi a luz de uma lanterna indo pro leste, bem cedo.”<br>• Dona Benedita: “Quem pede licença à mata não se perde de verdade.”</td></tr>
+    <tr><td>Vestígios Encontrados</td><td class="k">• Uma meia de lã presa em espinhos, ao leste.<br>• Tampa de lente de câmera no chão da trilha.<br>• Um cartão de memória dentro de um tubo de vidro, escondido no tronco (a professora o deixou como pista).</td></tr>
+  </table>
+
+  <div class="prints-title">ocorrências e lendas que ajudam</div>
+  <div class="blk" contenteditable="true"><p>As 20 cartas de Ocorrência funcionam como estão. Use o texto como cena e deixe os efeitos como o PDF manda. Nas cartas <b>favoráveis (15 a 20)</b>, uma lenda bem conhecida pode aparecer para dar uma ajuda curta, sem resolver o caso. Elas <b>não contam como entidade</b> e não entram nos registros.</p></div>
+  <table class="tbl"><tr><th>Lenda</th><th>Quando aparece</th><th>Como ajuda</th></tr>
+    <tr><td>Curupira</td><td class="k">Carta 15 ou 16 (abrigo, ajuda inesperada)</td><td class="k">Um assobio curto e pegadas de pés virados despistam Raul e Jair, deixando o grupo seguir. Contraste com os carimbos falsos do Seu Zeca.</td></tr>
+    <tr><td>Iara</td><td class="k">Carta 18 (rastro recente)</td><td class="k">Um canto distante vem da direção do igarapé, e a água forma uma ondulação apontando para o leste.</td></tr>
+    <tr><td>Boitatá</td><td class="k">Carta 19 ou 20 (à noite)</td><td class="k">Uma luz serpenteante corre pelo chão do mato e ilumina a trilha lateral até a ravina.</td></tr>
+    <tr><td>Saci</td><td class="k">Carta 17 (objeto reconhecido)</td><td class="k">Um redemoinho de folhas devolve o chapéu, a lente ou a bandana que alguém tinha perdido.</td></tr>
+    <tr><td>Boto</td><td class="k">Carta 16 (ajuda inesperada)</td><td class="k">Um senhor de chapéu branco no barco conta o que viu de madrugada no rio. Quando perguntam o nome, ele só sorri.</td></tr>
+  </table>
+  <div class="blk" contenteditable="true"><p><b class="l">Lembre</b> A ajuda é curta e some. A turma precisa continuar investigando. Se um jogador reconhecer a lenda, deixe-o explicar para os colegas: isso valoriza o saber popular.</p></div>
+
+  <div class="prints-title">o arquivo central</div>
+  <div class="blk" contenteditable="true"><p>Com três registros fechados, peça ao grupo uma hipótese organizada. Para vencer, ela precisa responder <b>quando</b> (cedo, de madrugada), <b>por que</b> (saiu por conta própria, preparada) e <b>para onde</b> (leste, ravina das Sapopemas, viva e ferida). Se faltar um ponto, entregue uma carta <b>Vestígios Encontrados</b> e deixe tentar de novo. Sem pressa, sem castigo.</p></div>
+
+  <div class="prints-title">fechamento: a ravina</div>
+  <div class="blk" contenteditable="true"><p>A turma chega à ravina das Sapopemas, entre raízes enormes. Do fundo, Marlene acena com a lanterna, de capa e com o tornozelo enfaixado. Ela ri de alívio e pergunta: “vocês vieram todos?”. Raul e Jair aparecem atrás, envergonhados, e admitem que esconderam a mochila. Seu Zeca chega com uma corda. No fim, a turma fecha o Arquivo: o que parecia obra de lendas era, na maior parte, gente fazendo coisas por medo, por cuidado ou por culpa. As lendas, no entanto, <b>deixaram sinais</b> para quem soube lê-las.</p></div>
+
+  <div class="prints-title">finais possíveis</div>
+  <table class="tbl"><tr><th>Final</th><th>Condição</th></tr>
+    <tr><td>Arquivo completo</td><td class="k">Três registros, hipótese certa e a professora encontrada. Raul e Jair são entregues aos adultos.</td></tr>
+    <tr><td>Achada com ajuda</td><td class="k">A professora é achada, mas o grupo precisou de vários Vestígios Encontrados e de uma lenda amiga.</td></tr>
+    <tr><td>Culpado errado</td><td class="k">A comunidade culpa o Seu Zeca por causa das pegadas falsas. A professora volta e a turma tem de limpar o nome dele.</td></tr>
+  </table>
+
+  <div class="prints-title">dicas de condução</div>
+  <ul class="lst">
+    <li><b>Segredos:</b> dê a cada jogador uma cena em que o segredo dele pese. Quando vier à tona, trate com cuidado.</li>
+    <li><b>Lendas com respeito:</b> use as lendas como saber de quem vive na floresta, nunca como piada sobre o povo que as conta. Isso vale em especial para o Abúhukü, que vem de um povo indígena específico.</li>
+    <li><b>Idade:</b> as lendas violentas dos dossiês aparecem aqui de forma leve: o que importa é a investigação, não o susto.</li>
+  </ul>
+
+  <div class="prints-title">frases para abrir cenas</div>
+  <ul class="lst">
+    <li>“A cama está arrumada, mas a bota dela sumiu.”</li>
+    <li>“Dona Lúcia põe o café na mesa e diz: foi o Mapinguari, ninguém me tira isso da cabeça.”</li>
+    <li>“Na foto do Théo, ao fundo, tem uma figura escura de capa que não devia estar ali.”</li>
+    <li>“Seu Zeca tira da mochila uma tábua velha e fica olhando para o chão.”</li>
+  </ul>
+  <div class="dos-note">Confidencial · uso exclusivo do Oráculo</div>
+</div>
+
+<div class="sheet" id="s-bia">
+  <div class="fed-head"><div class="seal">9º<br>ANO B</div><div><h1>Ficha de personagem · Aluno(a)</h1><p>Arquivo Folclórico — Operação: Lendas Desconhecidas</p></div>
+    <div class="fed-nums"><span>FICHA Nº <span contenteditable="true">01</span></span><span>JOGADOR(A) <span contenteditable="true">________</span></span></div></div>
+  <div class="fed-name stamp-campo" contenteditable="true">Bia Nogueira<small>“Bia” · a representante da turma</small></div>
+  <div class="fed-body">
+    <div class="photos"><div class="photo empty" id="photo-bia" onclick="document.getElementById('ph-bia').click()"><span>clique para<br>colocar a arte</span></div><div class="photo-label">retrato</div>
+      <input type="file" id="ph-bia" accept="image/*" onchange="setPhoto(this,'photo-bia')"></div>
+    <div class="fed-fields">
+      <div class="frow"><div class="flabel">Idade</div><div class="fval" contenteditable="true">15 anos</div></div>
+      <div class="frow"><div class="flabel">Origem</div><div class="fval" contenteditable="true">Belém, Pará</div></div>
+      <div class="frow"><div class="flabel">Bom em</div><div class="fval" contenteditable="true">Organizar o grupo e falar com adultos</div></div>
+      <div class="frow"><div class="flabel">Na turma</div><div class="fval" contenteditable="true">Representante de turma. Foi ela quem propôs a trilha da manhã.</div></div>
+      <div class="frow"><div class="flabel">Na mochila</div><div class="fval" contenteditable="true">Caderno com a lista de presença, caneta de 4 cores, apito do grupo</div></div>
+      <div class="frow"><div class="flabel">Medo</div><div class="fval" contenteditable="true">Decepcionar a professora Marlene e a turma inteira.</div></div>
+    </div>
+  </div>
+  <div class="prints-title">condição · marque ao longo da partida</div>
+  <div class="cond"><span><i>☐</i>Bem</span><span><i>☐</i>Ferido(a)</span><span><i>☐</i>Impedido(a) nesta rodada</span><span><i>☐</i>Dom já usado</span></div>
+  <div class="blk" contenteditable="true"><p style="margin-top:8px"><b class="l">Jeito de investigar</b> Organizar relatos e horários.</p><p><b class="l">Dom (1×/partida)</b> <b>Lista da turma.</b> Pergunta ao Oráculo onde cada colega estava em determinado horário. Ajuda a resolver relatos contraditórios.</p></div>
+  <div class="prints-title">história</div>
+  <div class="blk" contenteditable="true"><p>Bia sabe o nome, o horário e o sobrenome de todo mundo da turma. Quando algo dá errado, ela já está com uma lista na mão. O problema é que às vezes ela organiza tanto que esquece de ouvir.</p></div>
+  <div class="prints-title">o que só você sabe</div>
+  <div class="secret" contenteditable="true"><b class="l">Só você e o Oráculo sabem</b><br>Na véspera, Bia insistiu para a professora liberar a trilha da manhã, mesmo com o guia dizendo “melhor esperar”. Ela acha que o sumiço é culpa dela.</div>
+  <div class="prints-title">laço com um colega</div>
+  <div class="blk" contenteditable="true"><p>Théo Cardoso: ele zomba das listas dela, mas é o único que sempre responde quando ela chama.</p></div>
+  <div class="prints-title">anotações pessoais</div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="fed-foot"><div>Assinatura: <span class="sig" contenteditable="true">&nbsp;</span></div><div>Data: <span contenteditable="true">___/___/_____</span></div></div>
+</div>
+<div class="sheet" id="s-theo">
+  <div class="fed-head"><div class="seal">9º<br>ANO B</div><div><h1>Ficha de personagem · Aluno(a)</h1><p>Arquivo Folclórico — Operação: Lendas Desconhecidas</p></div>
+    <div class="fed-nums"><span>FICHA Nº <span contenteditable="true">02</span></span><span>JOGADOR(A) <span contenteditable="true">________</span></span></div></div>
+  <div class="fed-name stamp-campo" contenteditable="true">Théo Cardoso<small>“Théo” · o cético do celular</small></div>
+  <div class="fed-body">
+    <div class="photos"><div class="photo empty" id="photo-theo" onclick="document.getElementById('ph-theo').click()"><span>clique para<br>colocar a arte</span></div><div class="photo-label">retrato</div>
+      <input type="file" id="ph-theo" accept="image/*" onchange="setPhoto(this,'photo-theo')"></div>
+    <div class="fed-fields">
+      <div class="frow"><div class="flabel">Idade</div><div class="fval" contenteditable="true">15 anos</div></div>
+      <div class="frow"><div class="flabel">Origem</div><div class="fval" contenteditable="true">Manaus, Amazonas</div></div>
+      <div class="frow"><div class="flabel">Bom em</div><div class="fval" contenteditable="true">Lógica, mapas e charadas</div></div>
+      <div class="frow"><div class="flabel">Na turma</div><div class="fval" contenteditable="true">Veio porque a mãe obrigou. Jura que não acredita em lenda nenhuma.</div></div>
+      <div class="frow"><div class="flabel">Na mochila</div><div class="fval" contenteditable="true">Celular com 9% de bateria, powerbank, mapa offline da região</div></div>
+      <div class="frow"><div class="flabel">Medo</div><div class="fval" contenteditable="true">Ficar sem sinal e sem bateria no meio da mata.</div></div>
+    </div>
+  </div>
+  <div class="prints-title">condição · marque ao longo da partida</div>
+  <div class="cond"><span><i>☐</i>Bem</span><span><i>☐</i>Ferido(a)</span><span><i>☐</i>Impedido(a) nesta rodada</span><span><i>☐</i>Dom já usado</span></div>
+  <div class="blk" contenteditable="true"><p style="margin-top:8px"><b class="l">Jeito de investigar</b> Comparar informações e descartar hipóteses.</p><p><b class="l">Dom (1×/partida)</b> <b>Dar zoom.</b> Revê uma foto ou o mapa do celular e o Oráculo revela um detalhe que ninguém tinha visto.</p></div>
+  <div class="prints-title">história</div>
+  <div class="blk" contenteditable="true"><p>Théo acha que tudo tem explicação, e normalmente tem. Mas ele também tem uma pasta com prints de lendas “só para rir”, e nunca contou isso a ninguém.</p></div>
+  <div class="prints-title">o que só você sabe</div>
+  <div class="secret" contenteditable="true"><b class="l">Só você e o Oráculo sabem</b><br>Na manhã do sumiço, Théo tirou uma foto escondida da trilha (celular era proibido). No fundo tem uma figura escura de capa que ele achou “defeito da câmera” e não mostrou a ninguém.</div>
+  <div class="prints-title">laço com um colega</div>
+  <div class="blk" contenteditable="true"><p>Bia Nogueira: eles brigam o tempo todo, mas ele confia no senso de organização dela.</p></div>
+  <div class="prints-title">anotações pessoais</div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="fed-foot"><div>Assinatura: <span class="sig" contenteditable="true">&nbsp;</span></div><div>Data: <span contenteditable="true">___/___/_____</span></div></div>
+</div>
+<div class="sheet" id="s-yasmin">
+  <div class="fed-head"><div class="seal">9º<br>ANO B</div><div><h1>Ficha de personagem · Aluno(a)</h1><p>Arquivo Folclórico — Operação: Lendas Desconhecidas</p></div>
+    <div class="fed-nums"><span>FICHA Nº <span contenteditable="true">03</span></span><span>JOGADOR(A) <span contenteditable="true">________</span></span></div></div>
+  <div class="fed-name stamp-campo" contenteditable="true">Yasmin Corrêa<small>“Yas” · a que desenha tudo</small></div>
+  <div class="fed-body">
+    <div class="photos"><div class="photo empty" id="photo-yasmin" onclick="document.getElementById('ph-yasmin').click()"><span>clique para<br>colocar a arte</span></div><div class="photo-label">retrato</div>
+      <input type="file" id="ph-yasmin" accept="image/*" onchange="setPhoto(this,'photo-yasmin')"></div>
+    <div class="fed-fields">
+      <div class="frow"><div class="flabel">Idade</div><div class="fval" contenteditable="true">14 anos</div></div>
+      <div class="frow"><div class="flabel">Origem</div><div class="fval" contenteditable="true">Santarém, Pará</div></div>
+      <div class="frow"><div class="flabel">Bom em</div><div class="fval" contenteditable="true">Desenhar e perceber detalhes</div></div>
+      <div class="frow"><div class="flabel">Na turma</div><div class="fval" contenteditable="true">Veio para desenhar a floresta. Fala pouco e vê muito.</div></div>
+      <div class="frow"><div class="flabel">Na mochila</div><div class="fval" contenteditable="true">Caderno de desenho, lápis de cor, régua, borracha em formato de peixe</div></div>
+      <div class="frow"><div class="flabel">Medo</div><div class="fval" contenteditable="true">Bichos grandes no escuro e ser a mais nova do grupo.</div></div>
+    </div>
+  </div>
+  <div class="prints-title">condição · marque ao longo da partida</div>
+  <div class="cond"><span><i>☐</i>Bem</span><span><i>☐</i>Ferido(a)</span><span><i>☐</i>Impedido(a) nesta rodada</span><span><i>☐</i>Dom já usado</span></div>
+  <div class="blk" contenteditable="true"><p style="margin-top:8px"><b class="l">Jeito de investigar</b> Observar o ambiente e notar o que está fora do lugar.</p><p><b class="l">Dom (1×/partida)</b> <b>Retrato falado.</b> Desenha o que alguém descreve; o desenho mostra o que falta ou o que não bate na descrição.</p></div>
+  <div class="prints-title">história</div>
+  <div class="blk" contenteditable="true"><p>Yasmin enche o caderno de folhas, pegadas, bichos e rostos. A turma acha que ela vive no mundo da lua, mas é a que mais percebe quando algo muda de lugar.</p></div>
+  <div class="prints-title">o que só você sabe</div>
+  <div class="secret" contenteditable="true"><b class="l">Só você e o Oráculo sabem</b><br>De madrugada, pela janela, Yasmin desenhou uma luzinha de lanterna indo em direção à mata e achou que era vagalume. Guardou a folha amassada no fundo da mochila e não contou a ninguém.</div>
+  <div class="prints-title">laço com um colega</div>
+  <div class="blk" contenteditable="true"><p>Luna Paixão: melhor amiga desde o 6º ano. Luna fala por ela quando Yasmin trava.</p></div>
+  <div class="prints-title">anotações pessoais</div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="fed-foot"><div>Assinatura: <span class="sig" contenteditable="true">&nbsp;</span></div><div>Data: <span contenteditable="true">___/___/_____</span></div></div>
+</div>
+<div class="sheet" id="s-davi">
+  <div class="fed-head"><div class="seal">9º<br>ANO B</div><div><h1>Ficha de personagem · Aluno(a)</h1><p>Arquivo Folclórico — Operação: Lendas Desconhecidas</p></div>
+    <div class="fed-nums"><span>FICHA Nº <span contenteditable="true">04</span></span><span>JOGADOR(A) <span contenteditable="true">________</span></span></div></div>
+  <div class="fed-name stamp-campo" contenteditable="true">Davi Ribeiro<small>“Davi” · o que cresceu na comunidade</small></div>
+  <div class="fed-body">
+    <div class="photos"><div class="photo empty" id="photo-davi" onclick="document.getElementById('ph-davi').click()"><span>clique para<br>colocar a arte</span></div><div class="photo-label">retrato</div>
+      <input type="file" id="ph-davi" accept="image/*" onchange="setPhoto(this,'photo-davi')"></div>
+    <div class="fed-fields">
+      <div class="frow"><div class="flabel">Idade</div><div class="fval" contenteditable="true">15 anos</div></div>
+      <div class="frow"><div class="flabel">Origem</div><div class="fval" contenteditable="true">Comunidade Nova Esperança (hoje estuda na cidade)</div></div>
+      <div class="frow"><div class="flabel">Bom em</div><div class="fval" contenteditable="true">Conhecer o lugar, as histórias e o rio</div></div>
+      <div class="frow"><div class="flabel">Na turma</div><div class="fval" contenteditable="true">A comunidade é a dele. A turma o chamou de “guia”, e ele não gostou.</div></div>
+      <div class="frow"><div class="flabel">Na mochila</div><div class="fval" contenteditable="true">Canivete, bússola velha do avô, remo curto, camiseta da comunidade</div></div>
+      <div class="frow"><div class="flabel">Medo</div><div class="fval" contenteditable="true">Que riam das histórias que ele conta.</div></div>
+    </div>
+  </div>
+  <div class="prints-title">condição · marque ao longo da partida</div>
+  <div class="cond"><span><i>☐</i>Bem</span><span><i>☐</i>Ferido(a)</span><span><i>☐</i>Impedido(a) nesta rodada</span><span><i>☐</i>Dom já usado</span></div>
+  <div class="blk" contenteditable="true"><p style="margin-top:8px"><b class="l">Jeito de investigar</b> Ler o lugar e reconhecer histórias antigas.</p><p><b class="l">Dom (1×/partida)</b> <b>Aqui eu conheço.</b> Pergunta ao Oráculo quem na comunidade sabe sobre determinado assunto, ou aponta um caminho que só ele conhece.</p></div>
+  <div class="prints-title">história</div>
+  <div class="blk" contenteditable="true"><p>Davi cresceu ouvindo as histórias da mata contadas por avôs e avós. Na escola da cidade, ouviu que isso era “coisa de gente atrasada”. Hoje conta as lendas com um pé atrás, com medo de rirem.</p></div>
+  <div class="prints-title">o que só você sabe</div>
+  <div class="secret" contenteditable="true"><b class="l">Só você e o Oráculo sabem</b><br>Na noite anterior, para assustar os colegas, Davi contou o Mapinguari com todos os detalhes e inventou que “alguém tinha desaparecido na trilha”. Teme que a professora tenha ouvido e ficado nervosa.</div>
+  <div class="prints-title">laço com um colega</div>
+  <div class="blk" contenteditable="true"><p>Gael Mendes: Gael já zombou dele em sala, mas aqui é o primeiro a pedir ajuda ao Davi.</p></div>
+  <div class="prints-title">anotações pessoais</div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="fed-foot"><div>Assinatura: <span class="sig" contenteditable="true">&nbsp;</span></div><div>Data: <span contenteditable="true">___/___/_____</span></div></div>
+</div>
+<div class="sheet" id="s-luna">
+  <div class="fed-head"><div class="seal">9º<br>ANO B</div><div><h1>Ficha de personagem · Aluno(a)</h1><p>Arquivo Folclórico — Operação: Lendas Desconhecidas</p></div>
+    <div class="fed-nums"><span>FICHA Nº <span contenteditable="true">05</span></span><span>JOGADOR(A) <span contenteditable="true">________</span></span></div></div>
+  <div class="fed-name stamp-campo" contenteditable="true">Luna Paixão<small>“Lu” · a que todo mundo conta tudo</small></div>
+  <div class="fed-body">
+    <div class="photos"><div class="photo empty" id="photo-luna" onclick="document.getElementById('ph-luna').click()"><span>clique para<br>colocar a arte</span></div><div class="photo-label">retrato</div>
+      <input type="file" id="ph-luna" accept="image/*" onchange="setPhoto(this,'photo-luna')"></div>
+    <div class="fed-fields">
+      <div class="frow"><div class="flabel">Idade</div><div class="fval" contenteditable="true">14 anos</div></div>
+      <div class="frow"><div class="flabel">Origem</div><div class="fval" contenteditable="true">Rio de Janeiro, RJ (estuda em Manaus há 2 anos)</div></div>
+      <div class="frow"><div class="flabel">Bom em</div><div class="fval" contenteditable="true">Conversar, descobrir e escutar</div></div>
+      <div class="frow"><div class="flabel">Na turma</div><div class="fval" contenteditable="true">É a conectora da turma: sabe com quem cada um brigou e com quem fez as pazes.</div></div>
+      <div class="frow"><div class="flabel">Na mochila</div><div class="fval" contenteditable="true">Garrafa com adesivos, bala de goiaba, fones de ouvido pendurados no pescoço</div></div>
+      <div class="frow"><div class="flabel">Medo</div><div class="fval" contenteditable="true">Ser deixada de fora do grupo.</div></div>
+    </div>
+  </div>
+  <div class="prints-title">condição · marque ao longo da partida</div>
+  <div class="cond"><span><i>☐</i>Bem</span><span><i>☐</i>Ferido(a)</span><span><i>☐</i>Impedido(a) nesta rodada</span><span><i>☐</i>Dom já usado</span></div>
+  <div class="blk" contenteditable="true"><p style="margin-top:8px"><b class="l">Jeito de investigar</b> Conversar com as pessoas e perceber quando algo não bate.</p><p><b class="l">Dom (1×/partida)</b> <b>Todo mundo me conta.</b> Um adulto solta uma informação importante sem precisar ser pressionado.</p></div>
+  <div class="prints-title">história</div>
+  <div class="blk" contenteditable="true"><p>Luna chegou do Rio no meio do ano letivo e virou amiga de todo mundo. Parece só fofoca, mas na prática ela escuta de um jeito que ninguém faz.</p></div>
+  <div class="prints-title">o que só você sabe</div>
+  <div class="secret" contenteditable="true"><b class="l">Só você e o Oráculo sabem</b><br>Luna viu o Seu Zeca voltando da mata ao amanhecer, com lama até o joelho, e prometeu a ele que não contaria. Está começando a achar que talvez devesse.</div>
+  <div class="prints-title">laço com um colega</div>
+  <div class="blk" contenteditable="true"><p>Yasmin Corrêa: amiga de infância dela. Luna é quem a defende quando riem do caderno.</p></div>
+  <div class="prints-title">anotações pessoais</div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="fed-foot"><div>Assinatura: <span class="sig" contenteditable="true">&nbsp;</span></div><div>Data: <span contenteditable="true">___/___/_____</span></div></div>
+</div>
+<div class="sheet" id="s-gael">
+  <div class="fed-head"><div class="seal">9º<br>ANO B</div><div><h1>Ficha de personagem · Aluno(a)</h1><p>Arquivo Folclórico — Operação: Lendas Desconhecidas</p></div>
+    <div class="fed-nums"><span>FICHA Nº <span contenteditable="true">06</span></span><span>JOGADOR(A) <span contenteditable="true">________</span></span></div></div>
+  <div class="fed-name stamp-campo" contenteditable="true">Gael Mendes<small>“Gael” · o forte da turma</small></div>
+  <div class="fed-body">
+    <div class="photos"><div class="photo empty" id="photo-gael" onclick="document.getElementById('ph-gael').click()"><span>clique para<br>colocar a arte</span></div><div class="photo-label">retrato</div>
+      <input type="file" id="ph-gael" accept="image/*" onchange="setPhoto(this,'photo-gael')"></div>
+    <div class="fed-fields">
+      <div class="frow"><div class="flabel">Idade</div><div class="fval" contenteditable="true">15 anos</div></div>
+      <div class="frow"><div class="flabel">Origem</div><div class="fval" contenteditable="true">Belém, Pará</div></div>
+      <div class="frow"><div class="flabel">Bom em</div><div class="fval" contenteditable="true">Correr, escalar e proteger os colegas</div></div>
+      <div class="frow"><div class="flabel">Na turma</div><div class="fval" contenteditable="true">Capitão do time da escola. Todo mundo espera que ele vá na frente.</div></div>
+      <div class="frow"><div class="flabel">Na mochila</div><div class="fval" contenteditable="true">Corda curta, lanterna forte, barra de cereal, boné velho</div></div>
+      <div class="frow"><div class="flabel">Medo</div><div class="fval" contenteditable="true">Mostrar que tem medo, e escuro fechado.</div></div>
+    </div>
+  </div>
+  <div class="prints-title">condição · marque ao longo da partida</div>
+  <div class="cond"><span><i>☐</i>Bem</span><span><i>☐</i>Ferido(a)</span><span><i>☐</i>Impedido(a) nesta rodada</span><span><i>☐</i>Dom já usado</span></div>
+  <div class="blk" contenteditable="true"><p style="margin-top:8px"><b class="l">Jeito de investigar</b> Explorar o terreno e enfrentar trechos difíceis.</p><p><b class="l">Dom (1×/partida)</b> <b>Eu vou na frente.</b> Faz uma ação de investigação no lugar de um colega que esteja impedido ou ferido.</p></div>
+  <div class="prints-title">história</div>
+  <div class="blk" contenteditable="true"><p>Gael é o primeiro a levantar a mão para qualquer desafio. Só ele sabe que está cansado de ser forte o tempo todo, porque ninguém pergunta se ele está bem.</p></div>
+  <div class="prints-title">o que só você sabe</div>
+  <div class="secret" contenteditable="true"><b class="l">Só você e o Oráculo sabem</b><br>Às 5 da manhã, Gael acordou e viu a professora Marlene saindo do alojamento com a câmera e uma lanterna. Ela pediu silêncio. Ele voltou a dormir. Hoje pensa que podia ter ido junto ou contado a alguém.</div>
+  <div class="prints-title">laço com um colega</div>
+  <div class="blk" contenteditable="true"><p>Davi Ribeiro: já riu das histórias dele, e agora percebe que precisa dele para se sentir menos perdido.</p></div>
+  <div class="prints-title">anotações pessoais</div>
+  <div class="desc-lines" contenteditable="true"></div>
+  <div class="fed-foot"><div>Assinatura: <span class="sig" contenteditable="true">&nbsp;</span></div><div>Data: <span contenteditable="true">___/___/_____</span></div></div>
+</div>
+</div>
+<div class="toolbar"><button class="btn" onclick="window.print()">Imprimir ficha</button></div>
+<script>
+(function(){
+  var tabs=document.querySelectorAll('#tabs .tab');
+  function show(id, updateUrl){
+    document.querySelectorAll('.sheet').forEach(function(s){ s.classList.toggle('active', s.id===id); });
+    tabs.forEach(function(t){ t.classList.toggle('active', t.dataset.target===id); });
+    if(updateUrl){ try{ history.replaceState(null,'','#'+id); }catch(e){} }
+  }
+  tabs.forEach(function(t){ t.addEventListener('click',function(){ show(t.dataset.target, true); window.scrollTo({top:0,behavior:'smooth'}); }); });
+  var start=(location.hash||'').slice(1);
+  show(document.getElementById(start)?start:'s-caso');
+  document.querySelectorAll('.redacted').forEach(function(r){ r.addEventListener('click',function(){ r.classList.toggle('revealed'); }); });
+})();
+function setPhoto(input,targetId){
+  var f=input.files&&input.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(e){ var el=document.getElementById(targetId); el.style.backgroundImage="url('"+e.target.result+"')"; el.classList.remove('empty'); var s=el.querySelector('span'); if(s) s.style.display='none'; };
+  r.readAsDataURL(f);
+}
+</script>
+</body>
+</html>
