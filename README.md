@@ -42,4 +42,4 @@ Uma turma do 9º ano está numa aula de campo na Amazônia quando a professora M
 
 ## Equipe
 
-Júlia Albuquerque e [nomes do grupo] · Design, PUC-Rio
+Júlia Albuquerque, Amanda, Isabel e Larissa · Design, PUC-Rio
